@@ -27,7 +27,7 @@ git push -u origin main
 # 저장소 Settings → Pages → Source: Deploy from a branch → main / (root)
 ```
 
-배포 후 주소: `https://<계정>.github.io/daegu-ev-charge/`
+배포 주소(라이브): https://jackdinealkim.github.io/daegu-ev-charge/
 
 ## 데이터 출처
 
