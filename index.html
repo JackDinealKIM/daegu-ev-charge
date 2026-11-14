@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>충전은 어디서 멈추는가 — 대구 공공 전기차 충전 인프라 이용 편중·공백 진단</title>
+<meta name="description" content="대구광역시 공공 전기차 충전기 518기·18개월 실사용 로그로 본 이용 편중과 입지 공백 진단">
+<meta name="author" content="김재동">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#main">본문으로</a>
+
+<header class="hero">
+  <div class="hero__inner">
+    <div class="hero__eyebrow">
+      <span class="tag">2026 대구광역시 기후·환경·탄소중립 공공데이터 AI 활용대회</span>
+      <span class="tag tag--ghost">부문 2 · 공공데이터 분석·시각화</span>
+    </div>
+    <h1>충전은 어디서 멈추는가</h1>
+    <p class="hero__sub">대구 공공 전기차 충전 인프라 <strong>이용 편중·공백 진단</strong><br>
+      충전기 <em>대수</em>가 아니라 <em>충전량</em>으로 다시 본 18개월의 기록</p>
+    <p class="hero__meta" id="heroMeta"></p>
+    <nav class="hero__nav" aria-label="목차">
+      <a href="#summary">요약</a>
+      <a href="#concentration">① 이용 편중</a>
+      <a href="#speed">② 급속·완속</a>
+      <a href="#gap">③ 공간 공백</a>
+      <a href="#action">④ 진단과 처방</a>
+      <a href="#method">⑤ 방법론·출처</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ───────────────────────────── 요약 -->
+<section class="section" id="summary">
+  <div class="section__head">
+    <p class="kicker">한 장 요약</p>
+    <h2>충전기는 늘었지만, 충전은 소수에게 몰려 있다</h2>
+    <p class="lede">2024년 10월 18일부터 2026년 3월 31일까지 530일, 대구 공공 전기차 충전기 518기가 남긴
+      128,263건의 일별 충전 기록을 전수 집계했습니다. 대수 기준 지표로는 보이지 않던 편중과 공백이
+      세 가지 숫자로 드러납니다.</p>
+  </div>
+
+  <div class="kpis" id="kpis"></div>
+
+  <div class="findings">
+    <article class="finding">
+      <span class="finding__no">01</span>
+      <h3>상위 20%가 절반 가까이</h3>
+      <p>충전소 219곳 중 <b>상위 20%(44곳)</b>이 전체 충전량의 <b>45.6%</b>를 담당합니다.
+         반대로 하위 50%(109곳)는 <b>20.2%</b>에 그칩니다. 지니계수 <b>0.418</b>.</p>
+    </article>
+    <article class="finding">
+      <span class="finding__no">02</span>
+      <h3>3기에 1기는 사실상 멈춰 있다</h3>
+      <p>18개월 누적 500kWh 미만 충전기가 <b>179기(34.6%)</b>. 그중 4기는 충전량 0,
+         <b>47기</b>는 최근 3개월간 기록이 없어 고장·철거 여부 확인이 필요한 상태입니다.</p>
+    </article>
+    <article class="finding">
+      <span class="finding__no">03</span>
+      <h3>수요는 외곽으로 가는데, 충전소는 도심에</h3>
+      <p>행정동 141곳 중 <b>30곳</b>은 공공 충전소가 한 곳도 없습니다. 도보 500m 기준으로
+         대구 면적의 <b>14.5%</b>만 충전 사각지대에서 벗어납니다. 미충전 EV가 가장 많은 곳은
+         <b id="topGapName">달성군 다사읍</b>입니다.</p>
+    </article>
+  </div>
+</section>
+
+<!-- ───────────────────────────── 1. 편중 -->
+<section class="section section--alt" id="concentration">
+  <div class="section__head">
+    <p class="kicker">① 이용 편중</p>
+    <h2>설치된 518기, 실제로 도는 339기</h2>
+    <p class="lede">충전소별 18개월 누적 충전량을 정렬해 로렌츠 곡선으로 그렸습니다. 완전 균등선에서
+      크게 벌어진 만큼, "설치 대수"는 공급의 양을 말해줄 뿐 작동의 질은 말해주지 못합니다.</p>
+  </div>
+
+  <div class="grid grid--2">
+    <figure class="card">
+      <figcaption class="card__head">
+        <h3>로렌츠 곡선 — 충전소 219곳의 충전량 분포</h3>
+        <p class="card__sub">가로: 충전소 누적 비율 · 세로: 충전량 누적 비율</p>
+      </figcaption>
+      <div class="chart" id="lorenz" role="img" aria-label="충전소별 충전량 로렌츠 곡선"></div>
+      <div class="statrow" id="lorenzStats"></div>
+    </figure>
+
+    <figure class="card">
+      <figcaption class="card__head">
+        <h3>충전기 518기의 누적 충전량 분포</h3>
+        <p class="card__sub">18개월 누적 충전량 구간별 충전기 수</p>
+      </figcaption>
+      <div class="chart" id="hist" role="img" aria-label="충전기별 누적 충전량 히스토그램"></div>
+      <p class="note">막대 하나가 충전기 한 대입니다. 500kWh 미만 구간에 <b id="lowCnt">179기</b>가
+        몰려 있는 반면, 5만kWh를 넘긴 충전기는 <b>50기</b>뿐입니다. 18개월 내내 한 달에 2kWh도 쓰지 않은 셈입니다.</p>
+    </figure>
+  </div>
+
+  <figure class="card card--wide">
+    <figcaption class="card__head">
+      <h3>충전소 상위 10곳 vs 하위 10곳</h3>
+      <p class="card__sub">18개월 누적 충전량 기준 · 충전기 수 병기</p>
+    </figcaption>
+    <div class="duo" id="topBottom"></div>
+  </figure>
+</section>
+
+<!-- ───────────────────────────── 2. 급속·완속 -->
+<section class="section" id="speed">
+  <div class="section__head">
+    <p class="kicker">② 급속과 완속, 그리고 시간</p>
+    <h2>급속 305기가 충전량의 77%를 나른다</h2>
+    <p class="lede">급속 충전기는 전체의 59%인데 충전량은 76.9%를 차지합니다. 그러나 1기당 하루
+      충전량은 40.6kWh로, 50kW 설비를 24시간 기준으로 보면 용량 가동률은 3.4%에 불과합니다.</p>
+  </div>
+
+  <div class="grid grid--2">
+    <div class="card">
+      <div class="card__head"><h3>급속 vs 완속</h3><p class="card__sub">18개월 누적 · 충전기 1기당</p></div>
+      <div id="typeTable"></div>
+      <p class="note">급속 평균은 21,507kWh지만 <b>중앙값은 8,148kWh</b>입니다. 평균이 중앙값의 2.6배라는
+        것은 소수 충전기가 평균을 끌어올린다는 뜻입니다.</p>
+    </div>
+    <div class="card">
+      <div class="card__head"><h3>용량 가동률</h3><p class="card__sub">급속 50kW · 완속 7kW 가정, 24시간 기준</p></div>
+      <div class="chart chart--small" id="utilChart" role="img" aria-label="급속 완속 용량 가동률"></div>
+      <p class="note">설비를 붙여놓은 시간 대비 실제로 전기가 흐른 시간의 비율입니다.
+        가동률 3.4%는 "충전기가 부족하다"는 통념과 다른 방향의 숫자입니다.</p>
+    </div>
+  </div>
+
+  <figure class="card card--wide">
+    <figcaption class="card__head">
+      <h3>월별 일평균 충전량 추이</h3>
+      <p class="card__sub">막대·선: 일평균 kWh (기록일 기준) · 점선: 추세</p>
+      <div class="seg" id="seriesToggle" role="group" aria-label="계열 선택">
+        <button class="seg__btn is-active" data-k="all">전체</button>
+        <button class="seg__btn" data-k="fast">급속</button>
+        <button class="seg__btn" data-k="slow">완속</button>
+      </div>
+    </figcaption>
+    <div class="chart chart--tall chart--xscroll" id="series" role="img" aria-label="월별 충전량 추이"></div>
+    <p class="note">2026년 1~3월 일평균 충전량은 전년 동월 대비 <b>+6.3%</b>(1월 +10.8%·2월 0.0%·3월 +8.2%).
+      겨울(12~2월)과 여름(7~8월)에 높고 봄·가을에 낮은 계절 변동이 뚜렷합니다.</p>
+  </figure>
+
+  <div class="grid grid--2">
+    <figure class="card">
+      <figcaption class="card__head"><h3>요일별 일평균 충전량</h3><p class="card__sub">530일 전체</p></figcaption>
+      <div class="chart chart--small" id="weekday" role="img" aria-label="요일별 일평균 충전량"></div>
+      <p class="note">금요일이 가장 높고 일요일이 가장 낮습니다. 주말 충전 수요가 평일보다 12% 적어,
+        공공 충전 수요가 <b>통근·업무 이동</b>에 묶여 있음을 시사합니다.</p>
+    </figure>
+    <figure class="card">
+      <figcaption class="card__head"><h3>입지 유형별 충전량</h3><p class="card__sub">충전소 명칭 키워드 분류 · 1개소당 중앙값</p></figcaption>
+      <div class="chart" id="catChart" role="img" aria-label="입지 유형별 충전량"></div>
+      <p class="note">행정복지센터(74개소)가 충전량의 29.5%를 차지하지만 1개소당 중앙값은 27,311kWh로
+        공영주차장(19,136kWh)과 큰 차이가 없습니다. 반면 성격이 잡히지 않은 기타 시설은 중앙값이
+        51,844kWh로 가장 높습니다.</p>
+    </figure>
+  </div>
+</section>
+
+<!-- ───────────────────────────── 3. 공백 -->
+<section class="section section--alt" id="gap">
+  <div class="section__head">
+    <p class="kicker">③ 공간 공백</p>
+    <h2>등록대수는 수요를, 충전기는 공급을 말한다</h2>
+    <p class="lede">행정동별 전기차 등록대수(2025-10-31)와 충전소 좌표를 행정동 경계에 결합해
+      수요·공급을 같은 단위로 놓았습니다. 도보 500m 안에 공공 충전기가 없는 정도를 계산하면,
+      "충전소가 없는 동"과 "충전소가 있어도 닿지 않는 동"이 갈라집니다.</p>
+  </div>
+
+  <div class="grid grid--2 grid--map">
+    <figure class="card card--map">
+      <figcaption class="card__head">
+        <h3>대구 행정동 지도</h3>
+        <p class="card__sub">면: 선택 지표 · 원: 충전소(크기=충전기 수, 색=상태)</p>
+        <div class="seg" id="mapToggle" role="group" aria-label="지도 지표 선택">
+          <button class="seg__btn is-active" data-k="ev">전기차 등록대수</button>
+          <button class="seg__btn" data-k="cov">도보 500m 커버리지</button>
+          <button class="seg__btn" data-k="unc">미충전 EV</button>
+        </div>
+      </figcaption>
+      <div class="map" id="map" role="img" aria-label="대구 행정동 및 충전소 지도"></div>
+      <div class="legend" id="mapLegend"></div>
+    </figure>
+
+    <div class="card">
+      <div class="card__head"><h3>구·군별 수요–공급 격차</h3><p class="card__sub">등록대수 ÷ 충전기 수 · 공백지수(대구 평균=100)</p></div>
+      <div class="tablewrap" id="guTable"></div>
+      <p class="note">중구는 등록대수 점유율 대비 충전기 점유율이 크게 낮아 공백지수 167로 가장 높습니다.
+        달성군(109)·달서구(108)·동구(105)는 평균 수준이지만 <b>면적 커버리지</b>가 각각 4.3%·38.7%·9.9%로,
+        지도에서 보이듯 인구 밀집지와 충전소가 겹치지 않는 구간이 넓습니다. 군위군은 등록 EV 496대이나
+        본 데이터셋에 충전소가 0기로, 데이터 포함 여부 확인이 필요합니다.</p>
+    </div>
+  </div>
+
+  <figure class="card card--wide">
+    <figcaption class="card__head">
+      <h3>우선 검토 행정동 — 미충전 EV 기준 상위 12곳</h3>
+      <p class="card__sub">미충전 EV = 등록대수 × (1 − 도보 500m 커버리지)</p>
+    </figcaption>
+    <div class="tablewrap" id="prioTable"></div>
+    <p class="note">달성군 다사읍(등록 1,596대·충전기 12기·미충전 EV 1,425대)과 달서구 진천동(1,624대·14기·960대)이
+      가장 시급합니다. 달성군 화원읍은 충전기 2기로 350.5대당 1기에 이릅니다.</p>
+  </figure>
+</section>
+
+<!-- ───────────────────────────── 4. 진단과 처방 -->
+<section class="section" id="action">
+  <div class="section__head">
+    <p class="kicker">④ 진단과 처방</p>
+    <h2>새로 짓기 전에, 멈춘 충전기를 옮겨 보자</h2>
+    <p class="lede">저이용 179기의 18개월 충전량 합계는 17,141kWh로, 충전기 1기 평균(16,469kWh)을
+      겨우 넘는 수준입니다. 이들을 수요가 몰린 곳으로 재배치하면 신설 없이도 편익을 만들 수 있습니다.</p>
+  </div>
+
+  <div class="grid grid--2">
+    <figure class="card">
+      <figcaption class="card__head"><h3>재배치 시나리오 계산기</h3><p class="card__sub">이동 대수와 목적지 구·군을 바꿔 가며 추정</p></figcaption>
+      <div class="sim">
+        <label class="sim__row">
+          <span>이동할 저이용 충전기</span>
+          <input type="range" id="simN" min="0" max="179" step="1" value="60">
+          <output id="simNOut">60기</output>
+        </label>
+        <label class="sim__row">
+          <span>목적지 구·군</span>
+          <select id="simGu"></select>
+        </label>
+        <div class="seg" id="simMode" role="group" aria-label="가정 수준">
+          <button class="seg__btn is-active" data-k="city">보수적 · 도시 중앙값</button>
+          <button class="seg__btn" data-k="gu">낙관적 · 목적지 중앙값</button>
+        </div>
+      </div>
+      <div class="sim__out" id="simOut"></div>
+      <p class="note">가정: 이전한 충전기가 <b>도시 전체 중앙값</b>(급속 8,148kWh·완속 5,727kWh) 또는
+        <b>목적지 구·군 중앙값</b> 수준까지 이용된다고 봅니다. 증분은 현재 누적 충전량과의 차이로만 계산하며,
+        목적지 수용력·경합은 반영하지 않은 <b>상한 추정</b>입니다. 충전량은 전력배출계수 0.4173 tCO2eq/MWh로 환산했습니다.</p>
+    </figure>
+
+    <div class="card">
+      <div class="card__head"><h3>탄소·주행 환산</h3><p class="card__sub">18개월 누적 8,530,867kWh 기준</p></div>
+      <div id="co2"></div>
+      <p class="note">전력 사용에 따른 간접배출은 3,560 tCO2eq(2023년 전력배출계수 0.4173, 소비단 기준).
+        같은 전력으로 휘발유 승용차를 대체했다면 9,056 tCO2를 냈을 것으로 보아, 순감축은 약 5,496 tCO2eq입니다
+        (1kWh당 5.5km, 휘발유 12km/L·2.31kgCO2/L 가정).</p>
+    </div>
+  </div>
+
+  <figure class="card card--wide">
+    <figcaption class="card__head">
+      <h3>충전기 상태 진단표</h3>
+      <p class="card__sub">정렬·필터로 저이용·중단 의심 충전기를 확인</p>
+      <div class="seg" id="chFilter" role="group" aria-label="상태 필터">
+        <button class="seg__btn is-active" data-k="all">전체</button>
+        <button class="seg__btn" data-k="저이용">저이용</button>
+        <button class="seg__btn" data-k="중단의심">중단 의심</button>
+        <button class="seg__btn" data-k="미사용">미사용</button>
+      </div>
+    </figcaption>
+    <div class="tablewrap tablewrap--tall" id="chTable"></div>
+    <p class="note" id="chNote"></p>
+  </figure>
+
+  <div class="prescription">
+    <h3>정책 제언 — 세 갈래 처방</h3>
+    <ol>
+      <li><b>재배치 우선</b> : 18개월 누적 500kWh 미만 179기를 대상으로 철거·이전을 검토하고,
+        최근 3개월 무기록 47기는 고장·통신 상태를 먼저 확인합니다. 신규 설치보다 비용이 낮고 효과가 즉시 나타납니다.</li>
+      <li><b>공백 행정동 우선 설치</b> : 미충전 EV 상위 12개 동(다사읍·진천동·화원읍·유가읍·관문동 등)에
+        급속 1~2기를 우선 배치합니다. 이 12개 동의 미충전 EV 합계는 <b id="prioSum">7,100대</b> 규모입니다.</li>
+      <li><b>안내 강화</b> : 대시보드의 충전소 상태·가동률 정보를 시민 지도(카카오·네이버·티맵)와 대구시 앱에
+        연계해, 이용 가능한 충전기를 찾는 시간을 줄입니다. 이용률이 낮은 충전소는 요금·주차 정책으로 유도를 설계합니다.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ───────────────────────────── 5. 방법론 -->
+<section class="section section--alt" id="method">
+  <div class="section__head">
+    <p class="kicker">⑤ 방법론과 출처</p>
+    <h2>어떻게 계산했는지 남긴다</h2>
+    <p class="lede">심사와 재현을 위해 전처리 규칙, 지표 정의, 가정, 데이터 출처와 라이선스를 모두 적었습니다.
+      모든 수치는 원본 CSV에서 직접 계산했으며 외부 추정값을 쓰지 않았습니다.</p>
+  </div>
+
+  <div class="grid grid--2">
+    <div class="card">
+      <div class="card__head"><h3>전처리·집계 규칙</h3></div>
+      <ol class="rules" id="rules"></ol>
+    </div>
+    <div class="card">
+      <div class="card__head"><h3>데이터 출처·라이선스</h3></div>
+      <ul class="sources" id="sources"></ul>
+    </div>
+  </div>
+
+  <div class="grid grid--2">
+    <div class="card">
+      <div class="card__head"><h3>데이터 품질 점검</h3></div>
+      <ul class="rules" id="quality"></ul>
+    </div>
+    <div class="card">
+      <div class="card__head"><h3>한계와 다음 단계</h3></div>
+      <ul class="rules">
+        <li>이용 기록이 없는 날은 행이 존재하지 않아, 0으로 채워 해석했습니다. 충전기별 설치·철거 일자는
+          데이터에 없어 전 기간 가동을 가정했습니다.</li>
+        <li>용량 가동률은 급속 50kW·완속 7kW로 단순화했습니다. 실제 출력이 다른 기기는 가동률이 달라집니다.</li>
+        <li>도보 500m 커버리지는 120m 격자 근사로, 실제 보행로·지형을 반영하지 않습니다.</li>
+        <li>군위군은 2023년 편입 이후 행정동 경계·충전소 자료가 일치하지 않아 순위에서 제외했습니다.</li>
+        <li>다음 단계: 충전기 실시간 상태 API(한국환경공단)와 결합해 고장 여부를 자동 판별하고,
+          등록대수 추세·요일·기온을 넣은 행정동별 수요 예측으로 설치 우선순위를 분기별로 갱신합니다.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="foot__inner">
+    <p><b>충전은 어디서 멈추는가</b> — 대구 공공 전기차 충전 인프라 이용 편중·공백 진단</p>
+    <p>제작 김재동 · 2026 대구광역시 기후·환경·탄소중립 공공데이터 AI 활용대회 부문 2 출품작<br>
+      분석·시각화·문서 작성에 생성형 AI를 활용했으며, 모든 수치는 공공데이터 원본에서 직접 계산했습니다.</p>
+  </div>
+</footer>
+
+<div class="tip" id="tip" role="status" aria-live="polite"></div>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
