@@ -505,6 +505,13 @@
         ['탄소 환산', num(co2), 'tCO2eq'],
         ['이동 후 1기당 평균', num(per), 'kWh']
       ].map(function (r) { return '<div><span>' + r[0] + '</span><b>' + r[1] + '<small>' + r[2] + '</small></b></div>'; }).join('');
+      // 3D 디지털 트윈 연동 : 옮겨질 충전소·도착 구·군·증분을 그대로 전달
+      var counts = {};
+      moved.forEach(function (c) { counts[c.sid] = (counts[c.sid] || 0) + 1; });
+      var state = { n: n, gu: sel.value, mode: mode, gainKwh: gain, per: per, moved: counts };
+      window.EV_SIM_STATE = state;
+      if (window.EVTwin && typeof window.EVTwin.setSim === 'function') window.EVTwin.setSim(state);
+      try { window.dispatchEvent(new CustomEvent('evsim', { detail: state })); } catch (e) {}
     }
     rng.addEventListener('input', calc); sel.addEventListener('change', calc);
     $$('#simMode .seg__btn').forEach(function (b) {
@@ -527,7 +534,7 @@
       ['순감축(추정)', num(c.netT), 'tCO2eq', '대체 배출 − 전력 배출'],
       ['주행 환산', num(c.km), '만 km', '1kWh당 5.5km 가정']
     ];
-    $('#co2').innerHTML = '<div class="statrow" style="grid-template-columns:repeat(2,1fr)">' + items.map(function (i) {
+    $('#co2').innerHTML = '<div class="statrow statrow--4">' + items.map(function (i) {
       return '<div class="stat" style="padding:12px"><span>' + i[0] + '</span><b style="font-size:19px">' + i[1] +
         '</b><div style="font-size:10.5px;color:var(--muted);margin-top:2px">' + i[2] + ' · ' + i[3] + '</div></div>';
     }).join('') + '</div>';
@@ -596,7 +603,8 @@
       '<li><b>공간 결합</b> : 충전소 좌표(위·경도)를 행정동 경계에 점-다각형 판정으로 배정했습니다(219개소 중 217개소 배정, 2개소는 대구 시계 밖).</li>',
       '<li><b>도보 500m 커버리지</b> : 행정동 내부를 120m 격자로 나눠 각 격자점에서 가장 가까운 충전소까지의 직선거리를 계산하고, 500m 이내 격자의 면적 비율로 산출했습니다.</li>',
       '<li><b>공백지수</b> : (구·군 EV 등록 점유율 ÷ 충전기 점유율) × 100. 100이면 등록대수와 충전기가 같은 비율로 배분된 상태입니다.</li>',
-      '<li><b>가동률</b> : 누적 충전량 ÷ (분석일수 × 24시간 × 설비용량). 급속 50kW·완속 7kW를 가정했습니다.</li>'
+      '<li><b>가동률</b> : 누적 충전량 ÷ (분석일수 × 24시간 × 설비용량). 급속 50kW·완속 7kW를 가정했습니다.</li>',
+      '<li><b>3D 트윈</b> : 충전소 좌표를 행정동 경계와 같은 등장방형 투영으로 3차원에 배치했습니다. 기둥 높이는 선택한 지표(누적 충전량·충전기 수)를 로그 스케일로, 이용률은 충전소 누적 충전량 ÷ (530일 × 24시간 × 충전소 설비용량)으로 계산했습니다. 재배치 시뮬레이터의 이동 대상은 누적 500kWh 미만 충전기를 충전량 오름차순으로 정렬해 정한 것입니다.</li>'
     ].join('');
     $('#sources').innerHTML = [
       '<li><b>대구광역시_전기자동차 충전기 이용 현황</b> · 대구광역시 · 반기 갱신(2026-03-31 기준) · 128,263행<br>' +

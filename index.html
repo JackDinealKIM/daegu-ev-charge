@@ -4,8 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>충전은 어디서 멈추는가 — 대구 공공 전기차 충전 인프라 이용 편중·공백 진단</title>
-<meta name="description" content="대구광역시 공공 전기차 충전기 518기·18개월 실사용 로그로 본 이용 편중과 입지 공백 진단">
+<meta name="description" content="대구광역시 공공 전기차 충전기 518기·18개월 실사용 로그로 본 이용 편중과 입지 공백 진단. 219개 충전소를 3D 디지털 트윈으로 탐색합니다.">
 <meta name="author" content="김재동">
+<meta name="theme-color" content="#0a2a1f">
+<meta property="og:type" content="website">
+<meta property="og:title" content="충전은 어디서 멈추는가 — 대구 공공 전기차 충전 인프라 이용 편중·공백 진단">
+<meta property="og:description" content="충전기 518기·18개월 128,263행 실사용 로그로 본 이용 편중과 입지 공백. 219개 충전소를 3D 디지털 트윈으로 탐색합니다.">
+<meta property="og:image" content="https://jackdinealkim.github.io/daegu-ev-charge/emblem-daegu-ev.jpg">
+<link rel="icon" type="image/png" href="favicon.png">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -13,21 +19,29 @@
 
 <header class="hero">
   <div class="hero__inner">
-    <div class="hero__eyebrow">
-      <span class="tag">2026 대구광역시 기후·환경·탄소중립 공공데이터 AI 활용대회</span>
-      <span class="tag tag--ghost">부문 2 · 공공데이터 분석·시각화</span>
+    <div class="hero__grid">
+      <div class="hero__copy">
+        <div class="hero__eyebrow">
+          <span class="tag">2026 대구광역시 기후·환경·탄소중립 공공데이터 AI 활용대회</span>
+          <span class="tag tag--ghost">부문 2 · 공공데이터 분석·시각화</span>
+        </div>
+        <h1>충전은 어디서 멈추는가</h1>
+        <p class="hero__sub">대구 공공 전기차 충전 인프라 <strong>이용 편중·공백 진단</strong><br>
+          충전기 <em>대수</em>가 아니라 <em>충전량</em>으로 다시 본 18개월의 기록</p>
+        <p class="hero__meta" id="heroMeta"></p>
+      </div>
+      <figure class="hero__emblem">
+        <img src="emblem-daegu-ev.jpg" width="720" height="720" alt="대구 전기차 충전 그리드를 상징하는 엠블럼" decoding="async">
+      </figure>
     </div>
-    <h1>충전은 어디서 멈추는가</h1>
-    <p class="hero__sub">대구 공공 전기차 충전 인프라 <strong>이용 편중·공백 진단</strong><br>
-      충전기 <em>대수</em>가 아니라 <em>충전량</em>으로 다시 본 18개월의 기록</p>
-    <p class="hero__meta" id="heroMeta"></p>
     <nav class="hero__nav" aria-label="목차">
       <a href="#summary">요약</a>
       <a href="#concentration">① 이용 편중</a>
       <a href="#speed">② 급속·완속</a>
       <a href="#gap">③ 공간 공백</a>
-      <a href="#action">④ 진단과 처방</a>
-      <a href="#method">⑤ 방법론·출처</a>
+      <a href="#twin">④ 3D 트윈</a>
+      <a href="#action">⑤ 진단과 처방</a>
+      <a href="#method">⑥ 방법론·출처</a>
     </nav>
   </div>
 </header>
@@ -210,18 +224,60 @@
   </figure>
 </section>
 
-<!-- ───────────────────────────── 4. 진단과 처방 -->
-<section class="section" id="action">
+<!-- ───────────────────────────── ④ 3D 디지털 트윈 -->
+<section class="section section--twin" id="twin">
   <div class="section__head">
-    <p class="kicker">④ 진단과 처방</p>
-    <h2>새로 짓기 전에, 멈춘 충전기를 옮겨 보자</h2>
-    <p class="lede">저이용 179기의 18개월 충전량 합계는 17,141kWh로, 충전기 1기 평균(16,469kWh)을
-      겨우 넘는 수준입니다. 이들을 수요가 몰린 곳으로 재배치하면 신설 없이도 편익을 만들 수 있습니다.</p>
+    <p class="kicker">④ 3D 디지털 트윈</p>
+    <h2>219개 충전소를 3차원 그리드 위에 세우다</h2>
+    <p class="lede">행정동 경계를 지형으로, 충전소를 기둥으로 옮겨 그린 인터랙티브 트윈입니다. 기둥의 높이와
+      색은 선택한 지표를 따르고, 오른쪽 재배치 계산기를 움직이면 옮겨질 충전소와 도착지가 3D에서 즉시 반응합니다.</p>
   </div>
 
-  <div class="grid grid--2">
-    <figure class="card">
-      <figcaption class="card__head"><h3>재배치 시나리오 계산기</h3><p class="card__sub">이동 대수와 목적지 구·군을 바꿔 가며 추정</p></figcaption>
+  <div class="twin-console">
+    <figure class="twin-stage">
+      <figcaption class="twin-stage__head">
+        <div class="twin-stage__title">
+          <h3>대구 EV 스마트 차징 트윈</h3>
+          <p>드래그 회전 · 휠/핀치 확대 · 기둥 클릭 상세</p>
+        </div>
+        <div class="seg seg--dark seg--cams" id="twinCam" role="group" aria-label="카메라 프리셋">
+          <button class="seg__btn is-active" data-k="all">대구 전체</button>
+          <button class="seg__btn" data-k="core">도심 과밀</button>
+          <button class="seg__btn" data-k="edge">외곽 사각지대</button>
+        </div>
+      </figcaption>
+      <div class="twin-stage__view">
+        <div class="twin__canvas" id="twin3d" role="img"
+             aria-label="대구 219개 공공 전기차 충전소의 3차원 시각화. 지표와 카메라 프리셋을 바꾸고 충전소를 선택할 수 있습니다."></div>
+        <div class="twin__bars">
+          <div class="seg seg--dark" id="twinMetric" role="group" aria-label="3D 지표 선택">
+            <button class="seg__btn is-active" data-k="kwh">충전량 kWh</button>
+            <button class="seg__btn" data-k="chargers">충전기 수</button>
+            <button class="seg__btn" data-k="util">이용률</button>
+          </div>
+        </div>
+        <div class="twin__legend" id="twinLegend"></div>
+        <div class="twin__sim" id="twinSim" hidden></div>
+        <div class="twin__detail" id="twinDetail" hidden>
+          <button class="twin__detail-x" id="twinDetailClose" type="button" aria-label="상세 닫기">×</button>
+          <div id="twinDetailBody"></div>
+        </div>
+        <div class="twin__fallback" id="twinFallback" hidden>
+          <b>이 브라우저에서는 3D를 표시할 수 없습니다.</b>
+          <span>③ 공간 공백의 2D 지도에서 같은 정보를 볼 수 있습니다.</span>
+        </div>
+      </div>
+      <div class="twin-stage__foot">
+        <span>기둥 1개 = 충전소 1곳 · 높이·색 = <b id="twinMetricName">누적 충전량</b> · 지형 = <b id="twinGroundName">행정동 충전량</b></span>
+        <span class="twin-stage__tag">Three.js · WebGL 실시간 렌더</span>
+      </div>
+    </figure>
+
+    <aside class="twin-panel">
+      <div class="twin-panel__head">
+        <h3>재배치 시나리오</h3>
+        <span class="twin-panel__live"><i></i>3D 실시간 반영</span>
+      </div>
       <div class="sim">
         <label class="sim__row">
           <span>이동할 저이용 충전기</span>
@@ -238,18 +294,34 @@
         </div>
       </div>
       <div class="sim__out" id="simOut"></div>
+      <div class="twin-panel__stats">
+        <div><span>이동 대상 충전소</span><b id="twinSimStations">–</b><small>곳</small></div>
+        <div><span>1기당 추가 충전량</span><b id="twinSimRatio">–</b><small>kWh</small></div>
+      </div>
+      <div class="twin-panel__list" id="twinSimList"></div>
+      <p class="twin-panel__hint">주황으로 꺼지는 기둥이 이동 대상, 목적지 구·군에는 도착 신호가 켜집니다.</p>
       <p class="note">가정: 이전한 충전기가 <b>도시 전체 중앙값</b>(급속 8,148kWh·완속 5,727kWh) 또는
         <b>목적지 구·군 중앙값</b> 수준까지 이용된다고 봅니다. 증분은 현재 누적 충전량과의 차이로만 계산하며,
         목적지 수용력·경합은 반영하지 않은 <b>상한 추정</b>입니다. 충전량은 전력배출계수 0.4173 tCO2eq/MWh로 환산했습니다.</p>
-    </figure>
+    </aside>
+  </div>
+</section>
 
-    <div class="card">
-      <div class="card__head"><h3>탄소·주행 환산</h3><p class="card__sub">18개월 누적 8,530,867kWh 기준</p></div>
-      <div id="co2"></div>
-      <p class="note">전력 사용에 따른 간접배출은 3,560 tCO2eq(2023년 전력배출계수 0.4173, 소비단 기준).
-        같은 전력으로 휘발유 승용차를 대체했다면 9,056 tCO2를 냈을 것으로 보아, 순감축은 약 5,496 tCO2eq입니다
-        (1kWh당 5.5km, 휘발유 12km/L·2.31kgCO2/L 가정).</p>
-    </div>
+<!-- ───────────────────────────── ⑤ 진단과 처방 -->
+<section class="section section--alt" id="action">
+  <div class="section__head">
+    <p class="kicker">⑤ 진단과 처방</p>
+    <h2>새로 짓기 전에, 멈춘 충전기를 옮겨 보자</h2>
+    <p class="lede">저이용 179기의 18개월 충전량 합계는 17,141kWh로, 충전기 1기 평균(16,469kWh)을
+      겨우 넘는 수준입니다. 이들을 수요가 몰린 곳으로 재배치하면 신설 없이도 편익을 만들 수 있습니다.</p>
+  </div>
+
+  <div class="card card--wide">
+    <div class="card__head"><h3>탄소·주행 환산</h3><p class="card__sub">18개월 누적 8,530,867kWh 기준</p></div>
+    <div id="co2"></div>
+    <p class="note">전력 사용에 따른 간접배출은 3,560 tCO2eq(2023년 전력배출계수 0.4173, 소비단 기준).
+      같은 전력으로 휘발유 승용차를 대체했다면 9,056 tCO2를 냈을 것으로 보아, 순감축은 약 5,496 tCO2eq입니다
+      (1kWh당 5.5km, 휘발유 12km/L·2.31kgCO2/L 가정).</p>
   </div>
 
   <figure class="card card--wide">
@@ -280,10 +352,10 @@
   </div>
 </section>
 
-<!-- ───────────────────────────── 5. 방법론 -->
-<section class="section section--alt" id="method">
+<!-- ───────────────────────────── ⑥ 방법론 -->
+<section class="section" id="method">
   <div class="section__head">
-    <p class="kicker">⑤ 방법론과 출처</p>
+    <p class="kicker">⑥ 방법론과 출처</p>
     <h2>어떻게 계산했는지 남긴다</h2>
     <p class="lede">심사와 재현을 위해 전처리 규칙, 지표 정의, 가정, 데이터 출처와 라이선스를 모두 적었습니다.
       모든 수치는 원본 CSV에서 직접 계산했으며 외부 추정값을 쓰지 않았습니다.</p>
@@ -330,7 +402,9 @@
 </footer>
 
 <div class="tip" id="tip" role="status" aria-live="polite"></div>
+<script src="three.min.js"></script>
 <script src="data.js"></script>
 <script src="app.js"></script>
+<script src="twin.js"></script>
 </body>
 </html>
