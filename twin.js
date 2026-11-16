@@ -106,6 +106,13 @@
     if (s._util > maxUtil) maxUtil = s._util;
   });
 
+  var maxDongUtil = 0;
+  D.dong.forEach(function (d) {
+    var cap = (d.fast || 0) * 50 + (d.slow || 0) * 7;
+    d._util = d.kwh / (DAYS * 24 * Math.max(1, cap)) * 100;
+    if (d._util > maxDongUtil) maxDongUtil = d._util;
+  });
+
   var M = {
     kwh: {
       name: '누적 충전량', groundName: '행정동 충전량',
@@ -124,12 +131,12 @@
       ground: function (d) { return Math.pow(d.chargers / 35, 0.6); }
     },
     util: {
-      name: '이용률', groundName: '도보 500m 커버리지',
+      name: '이용률', groundName: '행정동 가동률',
       axis: ['0%', maxUtil.toFixed(1) + '%'],
       grad: 'linear-gradient(90deg,#1f8f70,#3ec9a0,#a9ffe1)',
       height: function (s) { return 1.2 + 26 * Math.pow(s._util / Math.max(0.001, maxUtil), 0.7); },
       tone: function (s) { return Math.pow(s._util / Math.max(0.001, maxUtil), 0.4); },
-      ground: function (d) { return Math.max(0, Math.min(1, d.coverage500)); }
+      ground: function (d) { return Math.pow(Math.max(0, d._util) / Math.max(0.01, maxDongUtil), 0.45); }
     }
   };
   var metric = 'kwh';
